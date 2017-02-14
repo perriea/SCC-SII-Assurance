@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script><script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <title>SII ASSURANCE</title>
+    <style type="text/css">
+        .raw-result {
+            margin: 1.25em;
+        }
+
+        pre {
+            background-color: ghostwhite;
+            border: 1px solid silver;
+            padding: 0.75em 1.25em;
+            margin: 1.25em;
+        }
+
+        .json-key {
+            color: brown;
+        }
+
+        .json-value {
+            color: navy;
+        }
+
+        .json-string {
+            color: olive;
+        }
+
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-static-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">SII ASSURANCE</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href="index.html">Home </a></li>
+                <li><a href="register.html">Inscription</a></li>
+                <li class="active"><a href="test.html">test</a></li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">SII ASSURANCE</h3>
+        </div>
+        <div class="panel-body">
+            <form class="form-inline">
+                <div class="form-group">
+                    <input type="text" id="trainId" class="form-control"/>
+                </div>
+                <button class="btn btn-danger" id="getInfo">OK</button>
+            </form>
+            <i class="fa fa-spinner fa-pulse fa-2x fa-fw" style="display: none" id="spinner"></i>
+            <table class="table table-striped table-bordered" id="tableResult" style="margin-top:15px;">
+                <thead>
+                <tr>
+                    <th>Train</th>
+                    <th>Départ</th>
+                    <th>Arrêts</th>
+                    <th>Destination</th>
+                    <th>Retard</th>
+                    <th>Remboursement de...</th>
+                    <th>Mon arrêt</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            <br/>
+            <pre><code id=raw-result></code></pre>
+        </div>
+    </div>
+</div>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function (e) {
+        $("#getInfo").click(function (ev) {
+            ev.preventDefault();
+            $("#spinner").show();
+            var sandboxToken = '163c6aea-a547-434e-96fe-d93d54681237';
+            var userTrainId = $("#trainId").val();
+            $.ajax({
+                type: 'GET',
+                url: 'https://api.sncf.com/v1/coverage/sncf/disruptions?start_page=710',
+                dataType: 'json',
+                headers: {
+                    Authorization: 'Basic ' + btoa(sandboxToken)
+                },
+                success: function(result) {
+                    console.log(result);
+                    console.log(result.disruptions[0]);
+                    console.log("BOUCLE");
+                    for (var i = 0; i < result.disruptions.length; i++) {
+                        console.log(result.disruptions[i].impacted_objects[0].pt_object.trip.name);
+                        console.log(userTrainId);
+                        if (result.disruptions[i].impacted_objects[0].pt_object.trip.name == userTrainId) {
+                            // console.log(result.disruptions[i]);
+                            displayInTable(result.disruptions[i], userTrainId);
+                            break;
+                        }
+                    }
+                    $("#spinner").hide();
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    $("#raw-result").html('Error: ' + textStatus + ' ' + errorThrown);
+                    $("#spinner").hide();
+                }
+            });
+
+
+            function displayInTable(disruptions, userTrainId) {
+                var $tbody = $('#tableResult > tbody');
+                var tr = $('#tableResult > tbody > tr');
+                tr.remove();
+                var stopTable = disruptions.impacted_objects[0].impacted_stops;
+                /*console.log(stopTable);*/
+                $.each(stopTable, function(index, section) {
+                    /*console.log(index);
+                    console.log(section);
+                    console.log(stopTable.length);*/
+                    var $tr = $('<tr>');
+                    var real_arrival_heure = section.amended_arrival_time.substr(0, 2);
+                    var real_arrival_minute = section.amended_arrival_time.substr(2, 2);
+                    var real_arrival_sec = section.amended_arrival_time.substr(4, 2);
+                    var base_arrival_heure = section.base_arrival_time.substr(0, 2);
+                    var base_arrival_minute = section.base_arrival_time.substr(2, 2);
+                    var base_arrival_sec = section.base_arrival_time.substr(4, 2);
+
+                    var differenceHeure = real_arrival_heure - base_arrival_heure;
+                    if (differenceHeure < 0) {
+                        differenceHeure = differenceHeure + 60;
+                    }
+                    var differenceMinute = real_arrival_minute - base_arrival_minute;
+                    if (differenceMinute < 0) {
+                        differenceMinute = 60 + differenceMinute;
+                    }
+                    var differenceSec = real_arrival_sec - base_arrival_sec;
+
+                    var remboursement = 0;
+                    if (differenceMinute == 30) {
+                        remboursement = 20;
+                    }
+                    if (differenceMinute == 60 || differenceHeure == 1) {
+                        remboursement = 40;
+                    }
+                    if (differenceHeure == 2) {
+                        remboursement = 60;
+                    }
+                    if (differenceMinute == 30 && differenceHeure == 2) {
+                        remboursement = 100;
+                    }
+
+                    $tr.append($('<td>').html(userTrainId));
+                    $tr.append($('<td>').html(stopTable[0].stop_point.label));
+                    $tr.append($('<td>').html(section.stop_point.label));
+                    $tr.append($('<td>').html(stopTable[stopTable.length - 1].stop_point.label));
+                    $tr.append($('<td>').html(differenceHeure + 'H ' + differenceMinute + 'm ' + differenceSec + 's '));
+                    $tr.append($('<td>').html(remboursement + ' %'));
+                    $tr.append($('<td>').html('<button class="btn btn-primary"><i class="fa fa-map-marker"></i> Ici</button>'));
+
+                    $tbody.append($tr);
+                });
+            }
+        });
+    });
+
+</script>
+</body>
+</html>
