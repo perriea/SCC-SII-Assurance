@@ -22,7 +22,7 @@ var TUsers = access.define('c_users', {
         allowNull: false,
         defaultValue: 4,
     },
-  	email: {
+  	mail: {
       	type: access.Sequelize.STRING(200),
       	allowNull: false,
       	unique: true,
@@ -30,10 +30,22 @@ var TUsers = access.define('c_users', {
             isEmail: true
         }
   	},
-  	password: {
+  	passwd: {
+      	type: access.Sequelize.STRING(255),
+      	allowNull: false
+  	},
+    prenom: {
       	type: access.Sequelize.STRING(255),
       	allowNull: true
-  	}
+  	},
+    nom: {
+      	type: access.Sequelize.STRING(255),
+      	allowNull: true
+  	},
+    ideth: {
+        type: access.Sequelize.STRING(255),
+        allowNull: false
+    }
 }, { timestamps: false });
 
 // methods ======================
@@ -44,7 +56,7 @@ methods.generateHash = function(password) {
 
 // checking if password is valid
 methods.validPassword = function(password, user) {
-	return bcrypt.compareSync(password, user.password, null);
+	return bcrypt.compareSync(password, user.passwd, null);
 };
 
 Role.hasOne(TUsers, { foreignKey : 'role_id', onDelete: 'NO ACTION' });

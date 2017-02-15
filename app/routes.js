@@ -44,8 +44,13 @@ module.exports = function(app, passport, error) {
     // SIGNUP ==============================
     // =====================================
     app.post('/api/auth/signup', function(req, res, next) {
+        console.log('/api/auth/signup');
         passport.authenticate('local-signup', function(err, user, info)
         {
+            console.log('/api/auth/signup in passport');
+            console.log(err);
+            console.log(user);
+            console.log(info);
             if (err)
                 return error.http_error(req, res, { code: 500 });
             if (user)
@@ -68,6 +73,11 @@ module.exports = function(app, passport, error) {
 
     app.get('/admin', Middleware.isAdminIn, function(req, res) {
         res.status(200).send({ error: false, session: req.session.passport });
+    });
+
+    app.get('/index', function(req, res) {
+        console.log(req.user);
+        //error.http_success(req, res, { code: 200, message: "logout" });
     });
 
     // All routes not found => 404

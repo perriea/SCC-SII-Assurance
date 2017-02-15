@@ -29,8 +29,8 @@ module.exports = function(passport) {
 
     passport.use('local-signup', new LocalStrategy({
             // on determine par defaut les champs
-            usernameField : 'email',
-            passwordField : 'password',
+            usernameField : 'mail',
+            passwordField : 'passwd',
             passReqToCallback : true
         },
         function(req, email, password, done)
@@ -38,7 +38,7 @@ module.exports = function(passport) {
             process.nextTick(function() {
 
                 // It is checked whether a user is already registered with the sent mail address
-                MUsers.TUsers.find({ where: { email: email }}).then(function(user)
+                MUsers.TUsers.find({ where: { mail: email }}).then(function(user)
                 {
                     // If a user exists with this email it says it is already taken
                     // Otherwise we create the user
@@ -48,7 +48,16 @@ module.exports = function(passport) {
                     {
                         if (validator.isLength(password, { min: 6, max: 30 }))
                         {
-                            MUsers.TUsers.create({ email: email, password: MUsers.methods.generateHash(password), authenticate_id: 1, role_id: 1 }).then(function(result) {
+                            console.log(req);
+                            MUsers.TUsers.create({
+                                mail: email,
+                                passwd: MUsers.methods.generateHash(password),
+                                authenticate_id: 1,
+                                role_id: 1,
+                                nom: req.body.nom,
+                                prenom: req.body.prenom,
+                                ideth: req.body.ideth
+                            }).then(function (result) {
                                 return done(null, result, { message: 'Registration successfully completed!' });
                             }).catch(function(e) {
                                 console.log("Local registration: Error in user creation.");
