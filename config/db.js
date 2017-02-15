@@ -4,9 +4,9 @@ var Sequelize = require('sequelize');
 // config sequelize - MySQL
 // Active Log to loggin: true
 var config_sequelize = {
-    database: 'dev-node',
-    user: 'node',
-    password: 'nodejs',
+    database: 'scc_sii_assurance',
+    user: 'root',
+    password: '',
     config: {
         host: 'localhost',
         port: 3306,
