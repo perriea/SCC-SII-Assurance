@@ -1,11 +1,18 @@
 $(document).ready(function (e) {
     $("#getInfo").click(function (ev) {
         ev.preventDefault();
-        $("#spinner").show();
-        var sandboxToken = '163c6aea-a547-434e-96fe-d93d54681237';
-        var userTrainId = $("#trainId").val();
-        var trainDepartureHour = $('#hour').val().replace(':', '') + '00';
-        getPage();
+        $("#show_error").hide();
+        if ($("#trainId").val() == '' || $('#hour').val() == '') {
+            $("#show_error").show();
+        } else {
+            $("#spinner").show();
+            var sandboxToken = '163c6aea-a547-434e-96fe-d93d54681237';
+            var userTrainId = $("#trainId").val();
+            var trainDepartureHour = $('#hour').val().replace(':', '') + '00';
+            getPage();
+        }
+        console.log($('#hour').val());
+
 
         function getPage(url) {
             if (url == undefined)

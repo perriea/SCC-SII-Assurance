@@ -42,10 +42,11 @@
                         <input type="text" id="trainId" class="form-control" placeholder="Votre numéro de train"/>
                     </div>
                     <div class="form-group">
-                        <input type="time"id="hour" class="form-control" placeholder="L'horaire de départ ">
+                        <input type="time" id="hour" class="form-control" placeholder="L'horaire de départ ">
                     </div>
                     <button class="btn btn-danger" id="getInfo">OK</button>
                 </form>
+                <div class="alert alert-danger" role="alert" id="show_error" style="margin-top: 10px;display: none">Veuillez saisir votre numéro de train ainsi que l'horaire de départ de votre train.</div>
                 <i class="fa fa-spinner fa-pulse fa-2x fa-fw" style="display: none" id="spinner"></i>
                 <table class="table table-striped table-bordered" id="tableResult" style="margin-top:15px;">
                     <thead>
