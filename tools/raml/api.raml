@@ -1,0 +1,40 @@
+#%RAML 0.8
+title: New API
+version: v1
+baseUri: http://api.samplehost.com
+schemas:
+  - hello_word: !include schemas/hello_word.json
+/api:
+  /hello:
+    get:
+      responses:
+        200:
+          description: Hello world !
+          body:
+            application/json:
+              schema: hello_word
+              example: !include ./examples/hello_word.json
+    post:
+      responses:
+        200:
+          description: Hello world !
+          body:
+            application/json:
+              schema: hello_word
+              example: !include ./examples/hello_word.json
+    put:
+      responses:
+        200:
+          description: Hello world !
+          body:
+            application/json:
+              schema: hello_word
+              example: !include ./examples/hello_word.json
+    delete:
+      responses:
+        200:
+          description: Hello world !
+          body:
+            application/json:
+              schema: hello_word
+              example: !include ./examples/hello_word.json
