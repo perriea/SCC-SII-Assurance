@@ -97,7 +97,6 @@ $(document).ready(function (e) {
         $tr.append($('<td>').html(differenceHeure + 'H ' + differenceMinute + 'm ' + differenceSec + 's '));
         $tr.append($('<td>').html(remboursement + ' %'));
         $tr.append($('<td>').html('<button class="btn btn-primary"><i class="fa fa-map-marker"></i> Ici</button>'));
-
         $tbody.append($tr);
       });
     }
