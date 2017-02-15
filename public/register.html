@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script><script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <title>SII ASSURANCE</title>
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-static-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">SII ASSURANCE</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href="index.html">Home </a></li>
+                <li class="active"><a href="register.html">Inscription</a></li>
+                <li><a href="test.html">test</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">Log In</a></li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">SII ASSURANCE</h3>
+        </div>
+        <div class="panel-body">
+            <h1>Inscription</h1>
+            <div id="error" class="alert alert-danger" role="alert" style="display: none;">
+                ERREUR - Veuillez saisir tous les champs !!!
+            </div>
+            <form id="registerForm" >
+                <div class="form-group">
+                    <label for="nom">Nom</label>
+                    <input type="text" class="form-control" id="nom" name="nom" placeholder="Nom" required>
+                </div>
+                <div class="form-group">
+                    <label for="prenom">Prénom</label>
+                    <input type="text" class="form-control" id="prenom" name="prenom" placeholder="Prénom" required>
+                </div>
+                <div class="form-group">
+                    <label for="mail">Email address</label>
+                    <input type="email" class="form-control" id="mail" name="mail" placeholder="Email" required>
+                </div>
+                <div class="form-group">
+                    <label for="passwd">Password</label>
+                    <input type="text" class="form-control" id="passwd" name="passwd" placeholder="Password" required>
+                </div>
+                <div class="form-group">
+                    <label for="ideth">Id Ethereum</label>
+                    <input type="text" class="form-control" id="ideth" name="ideth" placeholder="Id Ethereum" required>
+                </div>
+                <button type="submit" class="btn btn-info">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="js/register.js"></script>
+</body>
+</html>
