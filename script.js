@@ -4,6 +4,7 @@ $(document).ready(function (e) {
         $("#spinner").show();
         var sandboxToken = '163c6aea-a547-434e-96fe-d93d54681237';
         var userTrainId = $("#trainId").val();
+        var trainDepartureHour = $('#hour').val().replace(':', '') + '00';
         getPage();
 
         function getPage(url) {
@@ -19,33 +20,36 @@ $(document).ready(function (e) {
                 success: function (result) {
                     var findTrip = true;
                     console.log(result);
-                    console.log(result.disruptions[0]);
-                    console.log("BOUCLE");
+//                    console.log(result.disruptions[0]);
+//                    console.log("BOUCLE");
                     for (var i = 0; i < result.disruptions.length; i++) {
-                        console.log(result.disruptions[i].impacted_objects[0].pt_object.trip.name);
-                        console.log(userTrainId);
-                        if (result.disruptions[i].impacted_objects[0].pt_object.trip.name == userTrainId) {
-                            // console.log(result.disruptions[i]);
+//                      console.log(result.disruptions[i].impacted_objects[0].pt_object.trip.name);
+//                      console.log(userTrainId);
+                      for (var j = 0; j < result.disruptions[i].impacted_objects[0].impacted_stops.length; j++) {
+                        if (result.disruptions[i].impacted_objects[0].pt_object.trip.name == userTrainId 
+                            && result.disruptions[i].impacted_objects[0].impacted_stops[j].base_departure_time == trainDepartureHour) {
                             displayInTable(result.disruptions[i], userTrainId);
                             findTrip = false;
+                            $("#spinner").hide();
                         }
                     }
-                    if (findTrip) {
-                        for (var i = result.links.length - 1; i >= 0; i--) {
-                            if (result.links[i].type == 'next') {
-                                getPage(result.links[i].href);
-                                break;
-                            }
-                        }
-                    }
-                    $("#raw-result").html(pretty.json.prettyPrint(result));
-                    $("#spinner").hide();
-                },
-                error: function (xhr, textStatus, errorThrown) {
-                    $("#raw-result").html('Error: ' + textStatus + ' ' + errorThrown);
-                    $("#spinner").hide();
                 }
-            });
+                if (findTrip) {
+                    for (var i = result.links.length - 1; i >= 0; i--) {
+                        if (result.links[i].type == 'next') {
+                            getPage(result.links[i].href);
+                            break;
+                        }
+                    }
+                }
+                $("#raw-result").html(pretty.json.prettyPrint(result));
+
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                $("#raw-result").html('Error: ' + textStatus + ' ' + errorThrown);
+                $("#spinner").hide();
+            }
+        });
         }
 
         function displayInTable(disruptions, userTrainId) {
@@ -58,16 +62,16 @@ $(document).ready(function (e) {
                 /*console.log(index);
                  console.log(section);
                  console.log(stopTable.length);*/
-                var $tr = $('<tr>');
-                var real_arrival_heure = section.amended_arrival_time.substr(0, 2);
-                var real_arrival_minute = section.amended_arrival_time.substr(2, 2);
-                var real_arrival_sec = section.amended_arrival_time.substr(4, 2);
-                var base_arrival_heure = section.base_arrival_time.substr(0, 2);
-                var base_arrival_minute = section.base_arrival_time.substr(2, 2);
-                var base_arrival_sec = section.base_arrival_time.substr(4, 2);
+                 var $tr = $('<tr>');
+                 var real_arrival_heure = section.amended_arrival_time.substr(0, 2);
+                 var real_arrival_minute = section.amended_arrival_time.substr(2, 2);
+                 var real_arrival_sec = section.amended_arrival_time.substr(4, 2);
+                 var base_arrival_heure = section.base_arrival_time.substr(0, 2);
+                 var base_arrival_minute = section.base_arrival_time.substr(2, 2);
+                 var base_arrival_sec = section.base_arrival_time.substr(4, 2);
 
-                var differenceHeure = real_arrival_heure - base_arrival_heure;
-                if (differenceHeure < 0) {
+                 var differenceHeure = real_arrival_heure - base_arrival_heure;
+                 if (differenceHeure < 0) {
                     differenceHeure = differenceHeure + 60;
                 }
                 var differenceMinute = real_arrival_minute - base_arrival_minute;
@@ -102,27 +106,27 @@ $(document).ready(function (e) {
         }
     });
 
-    if (!pretty)
-        var pretty = {};
+if (!pretty)
+    var pretty = {};
 
-    pretty.json = {
-        replacer: function (match, pIndent, pKey, pVal, pEnd) {
-            var key = '<span class=json-key>';
-            var val = '<span class=json-value>';
-            var str = '<span class=json-string>';
-            var r = pIndent || '';
-            if (pKey)
-                r = r + key + pKey.replace(/[": ]/g, '') + '</span>: ';
-            if (pVal)
-                r = r + (pVal[0] == '"' ? str : val) + pVal + '</span>';
-            return r + (pEnd || '');
-        },
-        prettyPrint: function (obj) {
-            var jsonLine = /^( *)("[\w]+": )?("[^"]*"|[\w.+-]*)?([,[{])?$/mg;
+pretty.json = {
+    replacer: function (match, pIndent, pKey, pVal, pEnd) {
+        var key = '<span class=json-key>';
+        var val = '<span class=json-value>';
+        var str = '<span class=json-string>';
+        var r = pIndent || '';
+        if (pKey)
+            r = r + key + pKey.replace(/[": ]/g, '') + '</span>: ';
+        if (pVal)
+            r = r + (pVal[0] == '"' ? str : val) + pVal + '</span>';
+        return r + (pEnd || '');
+    },
+    prettyPrint: function (obj) {
+        var jsonLine = /^( *)("[\w]+": )?("[^"]*"|[\w.+-]*)?([,[{])?$/mg;
             return JSON.stringify(obj, null, 3)
-                .replace(/&/g, '&amp;').replace(/\\"/g, '&quot;')
-                .replace(/</g, '&lt;').replace(/>/g, '&gt;')
-                .replace(jsonLine, pretty.json.replacer);
+            .replace(/&/g, '&amp;').replace(/\\"/g, '&quot;')
+            .replace(/</g, '&lt;').replace(/>/g, '&gt;')
+            .replace(jsonLine, pretty.json.replacer);
         }
     };
 });
