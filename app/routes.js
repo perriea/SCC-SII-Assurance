@@ -19,63 +19,50 @@ module.exports = function(app, passport, error) {
     app.post('/example/:id', Example.testPostId);
 
 
-    // =====================================
-    // LOGIN ===============================
-    // =====================================
-    app.post('/api/auth/login', function(req, res, next) {
-        console.log('/api/auth/login');
-        passport.authenticate('local-login', function(err, user, info)
-        {
-            console.log('/api/auth/login in passport');
-            if (err)
-                error.http_error(req, res, { code: 500 });
-            if (user)
-            {
-                req.session.id = user.dataValues.id;
-                req.session.mail = user.dataValues.mail;
-
-                return error.http_success(req, res, { code: 200, message: info.message });
-            }
-
-            return error.http_error(req, res, { code: 400 });
-        })(req, res, next);
+    /****************** Sign UP ******************/
+    app.post('/api/inscription', passport.authenticate('local-signup', {
+        successRedirect : '/successSignUp',
+        failureRedirect : '/failureSignUp',
+        failureFlash : true
+    }));
+    app.get('/successSignUp', function(req, res) {
+        res.json({ message: 'OK' });
     });
 
+    app.get('/failureSignUp', function(req, res) {
+        res.json({ message: 'NOK' });
+    });
+    /****************** End Sign UP **************/
 
-    // =====================================
-    // SIGNUP ==============================
-    // =====================================
-    app.post('/api/auth/signup', function(req, res, next) {
-        console.log('/api/auth/signup');
-        passport.authenticate('local-signup', function(err, user, info)
-        {
-            console.log('/api/auth/signup in passport');
-            if (err)
-                return error.http_error(req, res, { code: 500 });
-            if (user)
-                return error.http_success(req, res, { code: 201, message: info.message });
-            if (!user && info.message)
-                return error.http_error(req, res, { code: 400 });
+    /****************** Login ********************/
+    app.post('/api/auth/login', passport.authenticate('local-login', {
+        successRedirect : '/successLogJson',
+        failureRedirect : '/failureLogJson',
+        failureFlash : true
+    }));
 
-            return error.http_error(req, res, { code: 400 });
-        })(req, res, next);
+    app.get('/successLogJson', function(req, res) {
+        res.json({ message: 'OK', user: req.user });
     });
 
-
-    // =====================================
-    // LOGOUT ==============================
-    // =====================================
-    app.get('/logout', function(req, res) {
-        req.logout();
-        error.http_success(req, res, { code: 200, message: "logout" });
+    app.get('/failureLogJson', function(req, res) {
+        res.json({ message: 'NOK' });
     });
+    /**************** End Login ****************/
+
+    /**************** Logout ******************/
+    app.get('/api/auth/logout', function(req, res) {
+        req.logOut();
+        res.redirect('/');
+    });
+    /**************** End Logout **************/
 
     app.get('/admin', Middleware.isAdminIn, function(req, res) {
-        res.status(200).send({ error: false, session: req.session.passport });
+        res.status(200).send({ error: false, session: req.user });
     });
 
     app.get('/isLog', Middleware.isLoggedIn, function(req, res) {
-        res.status(200).send({ error: false, session: req.session.passport });
+        res.status(200).send({ error: false, session: req.user });
     });
 
     app.get('/index', function(req, res) {
