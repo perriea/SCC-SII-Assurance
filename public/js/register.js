@@ -17,7 +17,13 @@ $(document).ready(function (e) {
                 var rq = $.ajax({
                     url: '/api/auth/signup',
                     method: 'POST',
-                    data: {nom: checkName.val(), prenom: checkPrenom.val(), mail: checkMail.val(), passwd: checkPasswd.val(), ideth: checkIdeth.val()},
+                    data: {
+                        nom: checkName.val(),
+                        prenom: checkPrenom.val(),
+                        mail: checkMail.val(),
+                        passwd: checkPasswd.val(),
+                        ideth: checkIdeth.val()
+                    },
                     beforeSend: function () {
                         checkName.val('');
                         checkPrenom.val('');
@@ -40,4 +46,26 @@ $(document).ready(function (e) {
             }
         }
     });
+    var rq = $.ajax({
+        url: '/isLog',
+        method: 'GET'
+    });
+    rq.success(function (result) {
+        location.href = '/';
+    });
+    rq.error(function (jqXHR) {
+        if (!result.error) {
+            $("li#in").hide();
+            $("li#registration").hide();
+            $("li#out").show();
+            $("li#listTrain").show();
+        } else {
+            $("li#in").show();
+            $("li#registration").show();
+            $("li#out").hide();
+            $("li#listTrain").hide();
+        }
+    });
+
+
 });
