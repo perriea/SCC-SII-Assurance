@@ -14,7 +14,6 @@ $(document).ready(function (e) {
         var checkIdeth = $('form#registerForm #ideth');
         if (checkName.val() != '' && checkPrenom.val() != '' && checkMail.val() != '' && checkPasswd.val() != '' && checkIdeth.val() != '') {
             if (regName.test(checkName.val()) && regName.test(checkPrenom.val()) && regMail.test(checkMail.val()) && regName.test(checkPasswd.val()) && regName.test(checkIdeth.val())) {
-                // this.submit();
                 var rq = $.ajax({
                     url: '/api/auth/signup',
                     method: 'POST',

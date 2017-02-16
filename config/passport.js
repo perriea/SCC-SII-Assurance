@@ -87,21 +87,20 @@ module.exports = function(passport) {
     // =========================================================================
 
     passport.use('local-login', new LocalStrategy({
-            usernameField : 'email',
-            passwordField : 'password',
+            usernameField : 'mail',
+            passwordField : 'passwd',
             passReqToCallback : true
         },
-        function(req, email, password, done)
+        function(req, mail, passwd, done)
         {
-            // If a user exists it looks if the password is correct
-            MUsers.TUsers.find({ where: { email: email }}).then(function(user) {
-
+            // If a user exists it looks if the passwd is correct
+            MUsers.TUsers.find({ where: { mail: mail }}).then(function(user) {
                 // if the user does not exist, return this message
                 if (!user)
                     return done(null, false, { message: 'This user does not exist' });
 
-                // verify the password
-                if (!MUsers.methods.validPassword(password, user))
+                // verify the passwd
+                if (!MUsers.methods.validPassword(passwd, user))
                     return done(null, false, { message: 'Invalid password' });
 
                 // If everything is ok, we create the session
