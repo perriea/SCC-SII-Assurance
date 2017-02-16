@@ -23,14 +23,16 @@ module.exports = function(app, passport, error) {
     // LOGIN ===============================
     // =====================================
     app.post('/api/auth/login', function(req, res, next) {
+        console.log('/api/auth/login');
         passport.authenticate('local-login', function(err, user, info)
         {
+            console.log('/api/auth/login in passport');
             if (err)
                 error.http_error(req, res, { code: 500 });
             if (user)
             {
                 req.session.id = user.dataValues.id;
-                req.session.email = user.dataValues.email;
+                req.session.mail = user.dataValues.mail;
 
                 return error.http_success(req, res, { code: 200, message: info.message });
             }
@@ -48,9 +50,6 @@ module.exports = function(app, passport, error) {
         passport.authenticate('local-signup', function(err, user, info)
         {
             console.log('/api/auth/signup in passport');
-            console.log(err);
-            console.log(user);
-            console.log(info);
             if (err)
                 return error.http_error(req, res, { code: 500 });
             if (user)
@@ -72,6 +71,10 @@ module.exports = function(app, passport, error) {
     });
 
     app.get('/admin', Middleware.isAdminIn, function(req, res) {
+        res.status(200).send({ error: false, session: req.session.passport });
+    });
+
+    app.get('/isLog', Middleware.isLoggedIn, function(req, res) {
         res.status(200).send({ error: false, session: req.session.passport });
     });
 
