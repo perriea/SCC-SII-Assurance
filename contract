@@ -1,0 +1,21 @@
+pragma solidity ^0.4.0;
+
+contract Refund {
+	address public refunder;
+    mapping (address => uint) public balanceOf;
+
+    event Sent(address from, address to, uint amount);
+	
+	function Refund() {
+		refunder = msg.sender;
+    }
+	
+	function balanceOf(address addr) returns (uint);
+
+    function send(address receiver, uint amount) {
+        if (msg.sender != refunder && balanceOf(msg.sender) < amount) return;
+        balanceOf(msg.sender) -= amount;
+        balanceOf(receiver) += amount;
+        Sent(msg.sender, receiver, amount);
+    }
+}
