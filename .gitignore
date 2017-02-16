@@ -1,0 +1,13 @@
+node_modules/
+config/ssl/cert.pem
+config/ssl/key.pem
+.DS_Store
+yarn.lock
+*~
+./**/.DS_Store
+**/.DS_Store
+.idea/
+.tmp/
+npm-debug.log
+config/ssl/server.crt
+config/ssl/server.key
