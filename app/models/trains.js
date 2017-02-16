@@ -14,14 +14,14 @@ var TTrains = access.define('c_trains', {
         primaryKey: true,
         allowNull: false
     },
-  	num: {
-      	type: access.Sequelize.STRING(200),
-      	allowNull: false
-  	},
-  	time: {
-      	type: access.Sequelize.STRING(255),
-      	allowNull: false
-  	},
+    num: {
+        type: access.Sequelize.STRING(200),
+        allowNull: false
+    },
+    time: {
+        type: access.Sequelize.STRING(255),
+        allowNull: false
+    },
     price: {
         type: access.Sequelize.INTEGER(),
         allowNull: false
@@ -40,7 +40,7 @@ var TTrains = access.define('c_trains', {
         allowNull: false,
         defaultValue: new Date()
     }
-}, { timestamps: false });
+}, {timestamps: false});
 
 // methods ======================
 // generating a hash
