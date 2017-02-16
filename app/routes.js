@@ -2,8 +2,8 @@ var sequelize  = require('sequelize');
 var path       = require('path');
 
 var Middleware = require(path.join(__dirname, '/middleware'));
-var Example    = require(path.join(__dirname, '/controllers/example'));
-var colors   = require(path.join(__dirname, '../config/color'));
+var Refund    = require(path.join(__dirname, '/controllers/refund'));
+var colors     = require(path.join(__dirname, '../config/color'));
 //var MUsers   = require(path.join(__dirname, '/models/users'));
 
 module.exports = function(app, passport, error) {
@@ -11,13 +11,6 @@ module.exports = function(app, passport, error) {
     app.get('/', function (req, res) {
         error.http_success(req, res, { code: 200, message: "Hello World !" });
     });
-
-    app.get('/example', Example.testGet);
-    app.get('/example/:id', Example.testGetId);
-
-    app.post('/example', Example.testPost);
-    app.post('/example/:id', Example.testPostId);
-
 
     /****************** Sign UP ******************/
     app.post('/api/inscription', passport.authenticate('local-signup', {
@@ -64,6 +57,8 @@ module.exports = function(app, passport, error) {
     app.get('/isLog', Middleware.isLoggedIn, function(req, res) {
         res.status(200).send({ error: false, session: req.user });
     });
+
+    app.post('/refund/:id', Refund.RefundPostId);
 
     app.get('/index', function(req, res) {
         console.log(req.user);
