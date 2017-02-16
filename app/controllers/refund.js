@@ -1,7 +1,7 @@
 var error     = require('../controllers/error');
 var validator = require('validator');
 var Web3      = require('web3');
-var request   = require('request')
+var request   = require('request');
 
 module.exports = {
 
