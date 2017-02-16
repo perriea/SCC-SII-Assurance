@@ -42,11 +42,11 @@ module.exports = function(app, passport, error) {
     }));
 
     app.get('/successLogJson', function(req, res) {
-        res.json({ message: 'OK', user: req.user });
+        res.json({ message: true, user: req.user });
     });
 
     app.get('/failureLogJson', function(req, res) {
-        res.json({ message: 'NOK' });
+        res.json({ message: false });
     });
     /**************** End Login ****************/
 

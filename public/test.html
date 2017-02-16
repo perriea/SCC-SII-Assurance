@@ -25,11 +25,12 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li><a href="index.html">Home </a></li>
-                    <li class="active"><a href="register.html">Inscription</a></li>
-                    <li><a href="test.html">test</a></li>
+                    <li id="registration"><a href="register.html">Inscription</a></li>
+                    <li id="listTrain" class="active"><a href="test.html">Train</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="login.html">Log In</a></li>
+                    <li id="in" ><a href="login.html">Log In</a></li>
+                    <li id="out" style="display: none;"><a href="/api/auth/logout">Log out</a></li>
                 </ul>
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
@@ -73,6 +74,7 @@
     </div>
 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="js/checkUser.js"></script>
     <script src="js/test.js"></script>
 </body>
 </html>
