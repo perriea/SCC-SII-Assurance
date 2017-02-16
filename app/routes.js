@@ -2,11 +2,12 @@ var sequelize = require('sequelize');
 var path = require('path');
 
 var Middleware = require(path.join(__dirname, '/middleware'));
-var Example = require(path.join(__dirname, '/controllers/example'));
 var Train = require(path.join(__dirname, '/controllers/train'));
 var Profile = require(path.join(__dirname, '/controllers/profile'));
 var Cron = require(path.join(__dirname, '/controllers/cron'));
 var colors = require(path.join(__dirname, '../config/color'));
+var Refund    = require(path.join(__dirname, '/controllers/refund'));
+var colors     = require(path.join(__dirname, '../config/color'));
 //var MUsers   = require(path.join(__dirname, '/models/users'));
 
 module.exports = function (app, passport, error) {
@@ -14,12 +15,6 @@ module.exports = function (app, passport, error) {
     app.get('/', function (req, res) {
         error.http_success(req, res, {code: 200, message: "Hello World !"});
     });
-
-    app.get('/example', Example.testGet);
-    app.get('/example/:id', Example.testGetId);
-
-    app.post('/example', Example.testPost);
-    app.post('/example/:id', Example.testPostId);
 
     /****************** Train ******************/
     app.post('/addTrain', Train.addTrain);
@@ -79,7 +74,9 @@ module.exports = function (app, passport, error) {
         res.status(200).send({error: false, session: req.user});
     });
 
-    app.get('/index', function (req, res) {
+    app.post('/refund/:id', Refund.RefundPostId);
+
+    app.get('/index', function(req, res) {
         console.log(req.user);
         //error.http_success(req, res, { code: 200, message: "logout" });
     });
