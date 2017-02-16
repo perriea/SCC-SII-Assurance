@@ -12,19 +12,22 @@ $(document).ready(function () {
             $("li#in").hide();
             $("li#registration").hide();
             $("li#out").show();
-            $("li#listTrain").show();
+            $("li#train").show();
+            $("li#profile").show();
         } else {
             $("li#in").show();
             $("li#registration").show();
             $("li#out").hide();
-            $("li#listTrain").hide();
+            $("li#train").hide();
+            $("li#profile").hide();
         }
     });
     rq.error(function (jqXHR) {
         $("li#in").show();
         $("li#registration").show();
         $("li#out").hide();
-        $("li#listTrain").hide();
+        $("li#train").hide();
+        $("li#profile").hide();
     });
 
     $('#outLink').on('click', function () {

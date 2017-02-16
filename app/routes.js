@@ -3,6 +3,8 @@ var path       = require('path');
 
 var Middleware = require(path.join(__dirname, '/middleware'));
 var Example    = require(path.join(__dirname, '/controllers/example'));
+var Train    = require(path.join(__dirname, '/controllers/train'));
+var Profile    = require(path.join(__dirname, '/controllers/profile'));
 var colors   = require(path.join(__dirname, '../config/color'));
 //var MUsers   = require(path.join(__dirname, '/models/users'));
 
@@ -18,9 +20,16 @@ module.exports = function(app, passport, error) {
     app.post('/example', Example.testPost);
     app.post('/example/:id', Example.testPostId);
 
+    /****************** Train ******************/
+    app.post('/addTrain', Train.addTrain);
+    /****************** End Train **************/
+
+    /****************** Profile ******************/
+    app.get('/getProfile', Profile.getProfile);
+    /****************** End Profile **************/
 
     /****************** Sign UP ******************/
-    app.post('/api/inscription', passport.authenticate('local-signup', {
+    app.post('/api/auth/signup', passport.authenticate('local-signup', {
         successRedirect : '/successSignUp',
         failureRedirect : '/failureSignUp',
         failureFlash : true

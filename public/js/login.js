@@ -41,7 +41,7 @@ $(document).ready(function (e) {
                     }
                 });
                 rq.error(function (jqXHR) {
-
+                    console.log(jqXHR);
                 });
             }
         }

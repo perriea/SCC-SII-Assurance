@@ -14,7 +14,7 @@ module.exports = {
     isAdminIn: function (req, res, next)
     {
         if (req.isAuthenticated()) {
-            MUsers.TUsers.find({where: { authenticate_type: 1, id: req.session.passport }}).then(function (user) {
+            MUsers.Users.find({where: { authenticate_type: 1, id: req.session.passport }}).then(function (user) {
                 if (user)
                     return next();
             }).catch(function (e) {

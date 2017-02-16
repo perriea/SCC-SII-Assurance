@@ -3,6 +3,8 @@ var db = require('../../config/db');
 var bcrypt = require('bcrypt');
 var colors = require('../../config/color');
 
+var Trains = require('./trains');
+
 var sequelize = db.sequelize;
 var access = db.access;
 var methods = { generateHash: null, validPassword: null };
@@ -52,11 +54,14 @@ methods.validPassword = function(password, user) {
 	return bcrypt.compareSync(password, user.passwd, null);
 };
 
+TUsers.hasOne(Trains, { foreignKey : 'user_id', onDelete: 'NO ACTION' });
+
 db.access.authenticate().then(function(err) {
     console.log(colors.info('Connection has been established successfully.'));
     TUsers.sync();
+    Trains.sync();
 }).catch(function (err) {
     console.log(colors.error('MySQL:' + err.message));
 });
 
-module.exports = { TUsers, methods };
+module.exports = { TUsers, Trains, methods };
