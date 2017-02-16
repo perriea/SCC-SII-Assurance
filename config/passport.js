@@ -3,6 +3,7 @@ var validator        = require('validator');
 
 // We load the MySQL model (Sequelize)
 var MUsers           = require('../app/models/users');
+var MTrains           = require('../app/models/trains');
 
 module.exports = function(passport) {
 

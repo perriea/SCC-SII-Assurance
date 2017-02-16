@@ -17,7 +17,13 @@ $(document).ready(function (e) {
                 var rq = $.ajax({
                     url: '/api/auth/signup',
                     method: 'POST',
-                    data: {nom: checkName.val(), prenom: checkPrenom.val(), mail: checkMail.val(), passwd: checkPasswd.val(), ideth: checkIdeth.val()},
+                    data: {
+                        nom: checkName.val(),
+                        prenom: checkPrenom.val(),
+                        mail: checkMail.val(),
+                        passwd: checkPasswd.val(),
+                        ideth: checkIdeth.val()
+                    },
                     beforeSend: function () {
                         checkName.val('');
                         checkPrenom.val('');

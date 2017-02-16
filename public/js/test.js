@@ -135,6 +135,7 @@ $(document).ready(function (e) {
         location.href = '/';
     });
 
+
     if (!pretty)
         var pretty = {};
 
