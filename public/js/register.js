@@ -40,4 +40,26 @@ $(document).ready(function (e) {
             }
         }
     });
+    var rq = $.ajax({
+        url: '/isLog',
+        method: 'GET'
+    });
+    rq.success(function (result) {
+        location.href = '/';
+    });
+    rq.error(function (jqXHR) {
+        if (!result.error) {
+            $("li#in").hide();
+            $("li#registration").hide();
+            $("li#out").show();
+            $("li#listTrain").show();
+        } else {
+            $("li#in").show();
+            $("li#registration").show();
+            $("li#out").hide();
+            $("li#listTrain").hide();
+        }
+    });
+
+
 });
