@@ -55,7 +55,6 @@ methods.validPassword = function(password, user) {
 db.access.authenticate().then(function(err) {
     console.log(colors.info('Connection has been established successfully.'));
     TUsers.sync();
-
 }).catch(function (err) {
     console.log(colors.error('MySQL:' + err.message));
 });

@@ -95,7 +95,6 @@ module.exports = function(passport) {
         {
             // If a user exists it looks if the passwd is correct
             MUsers.TUsers.find({ where: { mail: mail }}).then(function(user) {
-                console.log(user);
                 // if the user does not exist, return this message
                 if (!user)
                     return done(null, false, { message: 'This user does not exist' });
