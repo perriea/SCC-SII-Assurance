@@ -76,6 +76,8 @@ module.exports = function (app, passport, error) {
 
     app.post('/refund/:id', Refund.RefundPostId);
 
+    app.post('/refund/test/:id', Train.refundTrain);
+
     app.get('/index', function(req, res) {
         console.log(req.user);
         //error.http_success(req, res, { code: 200, message: "logout" });
