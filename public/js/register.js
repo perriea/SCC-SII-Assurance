@@ -13,7 +13,7 @@ $(document).ready(function (e) {
         var checkPasswd = $('form#registerForm #passwd');
         var checkIdeth = $('form#registerForm #ideth');
         if (checkName.val() != '' && checkPrenom.val() != '' && checkMail.val() != '' && checkPasswd.val() != '' && checkIdeth.val() != '') {
-            if (regName.test(checkName.val()) && regName.test(checkPrenom.val()) && regMail.test(checkMail.val()) && regName.test(checkPasswd.val()))) {
+            if (regName.test(checkName.val()) && regName.test(checkPrenom.val()) && regMail.test(checkMail.val()) && regName.test(checkPasswd.val())) {
                 var rq = $.ajax({
                     url: '/api/auth/signup',
                     method: 'POST',
