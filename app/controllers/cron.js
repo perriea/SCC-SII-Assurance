@@ -33,7 +33,7 @@ module.exports = {
          */
 
         jobUp = new cron.CronJob({
-            cronTime: '* * * * *',
+            cronTime: '30 * * * *',
             onTick: function () {
                 // oThat.getPage({});
                 console.log('loop', new Date());
