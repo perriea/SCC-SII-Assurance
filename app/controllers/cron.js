@@ -16,26 +16,18 @@ module.exports = {
         var oThat = this;
         var jobUp = null;
 
-        /**
-         * @todo Mv this code to launch in cron
-         */
-        MTrains.findAll({where: {refund: {$eq: false}}}).then(function (result) {
-            var arrayTrain = [];
-            result.forEach(function (item) {
-                arrayTrain.push(item.dataValues)
-            });
-            oThat.getPage(arrayTrain);
-        }).catch(function (e) {
-            console.log("Error: get profile!");
-        });
-        /**
-         * @todo end mv
-         */
-
         jobUp = new cron.CronJob({
             cronTime: '30 * * * *',
             onTick: function () {
-                // oThat.getPage({});
+                MTrains.findAll({where: {refund: {$eq: false}}}).then(function (result) {
+                    var arrayTrain = [];
+                    result.forEach(function (item) {
+                        arrayTrain.push(item.dataValues)
+                    });
+                    oThat.getPage(arrayTrain);
+                }).catch(function (e) {
+                    console.log("Error: get profile!");
+                });
                 console.log('loop', new Date());
             },
             start: true
