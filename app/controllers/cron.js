@@ -41,7 +41,7 @@ module.exports = {
             url = 'https://api.sncf.com/v1/coverage/sncf/disruptions';
         request.get(url, {
             'auth': {
-                'user': '163c6aea-a547-434e-96fe-d93d54681237',
+                'user': '3e2e5c62-2fca-408c-8b2c-f3b70cc54ed3',
                 'pass': '',
                 'sendImmediately': false
             }
