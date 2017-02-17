@@ -19,7 +19,7 @@ module.exports = {
         /**
          * @todo Mv this code to launch in cron
          */
-        MTrains.findAll({}).then(function (result) {
+        MTrains.findAll({where: {refund: {$eq: false}}}).then(function (result) {
             var arrayTrain = [];
             result.forEach(function (item) {
                 arrayTrain.push(item.dataValues)
@@ -33,7 +33,7 @@ module.exports = {
          */
 
         jobUp = new cron.CronJob({
-            cronTime: '* * * * *',
+            cronTime: '30 * * * *',
             onTick: function () {
                 // oThat.getPage({});
                 console.log('loop', new Date());
