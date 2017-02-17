@@ -34,7 +34,7 @@ module.exports = {
         MTrains.update(
             {refund: true, timeRefund: new Date()},
             {where: {id: req.params.id}}
-        ).success(function (result) {
+        ).then(function (result) {
             lib.from = 'Jonthan.LT@gmail.com';
             var mail = new Email({
                 to: user.mail,
@@ -45,7 +45,7 @@ module.exports = {
 
             console.log(result);
             res.status(200).send({error: false, message: "OK"});
-        }).error(function (err) {
+        }).catch(function (err) {
             console.log('Success')
         });
     }
