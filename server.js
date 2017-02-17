@@ -1,29 +1,31 @@
 // Framework ExpressJS
-var express        = require('express');
-var robots          = require('express-robots');
-var pmx            = require('pmx').init({ http : true });
+var express = require('express');
+var robots = require('express-robots');
+var pmx = require('pmx').init({http: true});
 
 // HTTP/1.1 ou HTTP/2 (spdy)
-var http           = require('http');
-var https          = require('https');
-var spdy		   = require('spdy');
+var http = require('http');
+var https = require('https');
+var spdy = require('spdy');
 
-var path           = require('path');
-var bodyParser     = require('body-parser');
+var path = require('path');
+var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
-var cookieParser   = require('cookie-parser');
-var morgan         = require("morgan");
-var cors           = require('cors');
-var passport       = require('passport');
+var cookieParser = require('cookie-parser');
+var morgan = require("morgan");
+var cors = require('cors');
+var passport = require('passport');
 var expressSession = require('express-session');
-var fs             = require('fs');
-var favicon        = require('serve-favicon');
-var compression    = require("compression");
-var helmet         = require("helmet");
-var app            = express();
+var fs = require('fs');
+var favicon = require('serve-favicon');
+var compression = require("compression");
+var helmet = require("helmet");
+var app = express();
 
-var colors         = require(path.join(__dirname, '/config/color'));
-var error          = require(path.join(__dirname, '/app/controllers/error'));
+var cronLauncher = require('./app/controllers/cron');
+
+var colors = require(path.join(__dirname, '/config/color'));
+var error = require(path.join(__dirname, '/app/controllers/error'));
 
 // var ports + SSL
 var ports = {
@@ -55,10 +57,10 @@ app.use(morgan("common"));
 app.use(bodyParser.json());
 
 // parse application/vnd.api+json as json
-app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
+app.use(bodyParser.json({type: 'application/vnd.api+json'}));
 
 // parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({extended: true}));
 
 // read cookies (needed for auth)
 app.use(cookieParser());
@@ -110,10 +112,12 @@ console.log(colors.info('RESTful API running, PID : ' + process.pid));
  }).listen(ports.http);*/
 
 // HTTP/1.1
-http.createServer(app).listen(ports.http, () => { console.log(colors.verbose('Port serveur HTTP (API) : ' + ports.http)); });
-https.createServer(credentials, app).listen(ports.https, () => { console.log(colors.verbose('Port serveur HTTPS (API) : ' + ports.https)); });
+http.createServer(app).listen(ports.http, () => console.log(colors.verbose('Port serveur HTTP (API) : ' + ports.http)));
+https.createServer(credentials, app).listen(ports.https, () => console.log(colors.verbose('Port serveur HTTPS (API) : ' + ports.https)));
 
 // HTTP/2
 //httpsServer = spdy.createServer(credentials, app).listen(ports.https);
+
+cronLauncher.cronLaunch();
 
 exports = module.exports = app;
