@@ -67,7 +67,7 @@ module.exports = {
             error.http_error(req, res, {code: 400, message: "No id ticket"});
     },
     RefundTestPostId: function (req, res) {
-        var user_id = 1;
+        var user_id = req.user;
         var refund_id = req.params.id;
         var ether_addr = req.body.addr;
         var value_refund = req.body.value;
