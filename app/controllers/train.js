@@ -33,7 +33,7 @@ module.exports = {
         Refund.RefundTestPostId(req, res);
         MTrains.update(
             {refund: true, timeRefund: new Date()},
-            {where: {id: refund_id}}
+            {where: {id: req.params.id}}
         ).success(function (result) {
             lib.from = 'Jonthan.LT@gmail.com';
             var mail = new Email({
