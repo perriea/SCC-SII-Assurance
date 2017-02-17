@@ -26,6 +26,7 @@
     "cookie-parser": "^1.4.3",
     "cors": "^2.8.1",
     "cron": "^1.2.1",
+    "email": "^0.2.6",
     "express": "~4.5.1",
     "express-robots": "^0.1.6",
     "express-session": "^1.14.0",
