@@ -80,3 +80,5 @@ Ce projet a été réalisé avec les outils suivant.
 Tout est déjà en place il n'y a pas plus qu'à utiliser :)
 
 Bon dev !
+
+Nous avons eu 18/20
